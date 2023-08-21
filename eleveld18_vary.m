@@ -1,4 +1,4 @@
-function [sys, volume, clearance] = eleveld18_expand(mPatient, stepSize)
+function [sys, volume, clearance] = eleveld18_vary(mPatient, stepSize)
 % Implements the model of Eleveld as described in page 942 of :
 % Eleveld DJ, Colin P, Absalom AR, Struys MMRF. 
 % Pharmacokinetic-pharmacodynamic model for propofol for broad application
@@ -14,13 +14,36 @@ wgt = mPatient.Weight;
 age = mPatient.Age;
 isOpiates = mPatient.Opiates;
 
-th= [6.28; 25.5; 273; 1.79;1.83 ; 
+th= [6.28; 25.5; 273; 1.79; 1.83; 
     1.11; 0.191; 42.3; 9.06; -0.0156; 
     -0.00286; 33.6; -0.0138; 68.3 ; 2.10; 
     1.30; 1.42; 0.68];
+
+thmin= [5.97; 23.5; 243; 1.71;
+    1.61; 1.02; 0.183; 40.5; 5.95; -0.0185;
+    -0.00388; 22.8; -0.0171; 52.4; 2; 
+    0.7; 0.92; 0.62];
+
+thmax= [6.8; 27.6; 306; 1.87; 
+    1.85; 1.2; 0.2; 45.1; 12.29; -0.0128;
+    -0.00186; 50; -0.0107; 86; 2.21;
+    2.13; 1.78; 0.78];
+
+thmin = th;
+thmax = th;
+
+x = norminv(0.995);
+
+sigma = (thmax - thmin)/2/x;
+
+% th = normrnd(th,(thmax-thmin)/x/2);
+
 thke0 = exp(-1.921620);
-%omega=[0.610; 0.565; 0.597; 0.265; 0.346; 0.209; 0.463];
-eta = zeros(1,6);
+omega=[0.610; 0.565; 0.597; 0.265; 0.346; 0.209; 0.463];
+
+omega_keo = 0.702;
+eta= (rand(7,1)-0.5)*1.5.*sqrt(omega);
+eta_keo = (rand(1)-0.5)*1.5*sqrt(omega_keo);
 
     function f = alsallami(mPatient)
         BMI = mPatient.Weight/((mPatient.Height/100)^2);
@@ -82,7 +105,7 @@ CL2 = CL2art;
 CL3 = th(6)*((V3/th(3))^0.75)*(Q3maturation(age)/Q3maturation(35))*exp(eta(6));
 clearance = [CL1 CL2 CL3];
 
-ke0 = thke0*((wgt/70)^-0.25)*exp(eta(2));
+ke0 = thke0*((wgt/70)^-0.25)*exp(eta_keo);
 
 sys = mam2ss_all(clearance,volume, ke0);
 if (nargin==3)
