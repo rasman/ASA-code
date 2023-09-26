@@ -9,8 +9,8 @@ h = figure;
 axis tight manual % this ensures that getframe() returns a consistent size
 set(h,'Position',[100 100 1200 600])
 filename = 'dose_stable.gif';
-plot(t,y*1000)
-line([0 120],y2(end)*.15*70*[1 1]*1000, 'Color','k','LineStyle','--')
+plot(t,y*1000,'LineWidth',2)
+line([0 120],y2(end)*.15*70*[1 1]*1000, 'Color','k','LineStyle','--','LineWidth',2)
 ylim([0 6.5])
 xlabel('Time (min)')
 ylabel('Effect Site (mcg/mL)')

@@ -4,7 +4,7 @@ mPatient = patBuilder(50,70, 170, 1);
 dur = 4*60;
 plan = [4, 0];
 time = 0:1/60:dur;
-t1 = 0:1/60:240;
+t1 = 0:1/60:480;
 u1 = zeros(size(t1));
 h = figure;
 axis tight manual % this ensures that getframe() returns a consistent size
@@ -53,9 +53,9 @@ first = true;
 N = 2000;
 location = nan(N,3);
 d_time = nan(N,3);
-
+varysize = 0.75;
 for iter = 1:N
-    sys_ele = eleveld18_vary(mPatient);
+    sys_ele = eleveld18_vary(mPatient, varysize);
     sys_ele = sys_ele(2);
     [y1,tOut,x] = lsim(sys_ele,input,time);
     
@@ -78,7 +78,7 @@ for iter = 1:N
     location(iter, 3) = find(y < 1.5e-3,1);
     d_time(iter, 3) = find(y < y1(end)*1.5/4,1);
     catch
-        print('fail');
+        disp('fail');
     end
     if mod(iter,100) ==0
         disp(iter)
@@ -113,7 +113,7 @@ legend ({'25%','50%','62.5%'},'AutoUpdate','off')
 
 
 xlim([0 4])
-ylim([0 100])
+ylim([0 50])
 xlabel('Decrement percentage')
 xticks([1,2,3]);
 xticklabels({'25%', '50%', '62.5'})

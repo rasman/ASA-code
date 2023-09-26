@@ -69,9 +69,9 @@ xlabel('Remifentanil (ng/mL)')
 ylabel('Propofol (mcg/mL)')
 title ('Isobologram')
 
-plot(concR_wake(1,:)*1e3, concP_wake*1e3, 'b-')
-plot(concR_wake(2,1:10:end)*1e3, concP_wake(1:10:end)*1e3, 'b:')
-plot(concR_tet(1,:)*1e3, concP_tet*1e3, 'r-')
+plot(concR_wake(1,:)*1e3, concP_wake*1e3, 'b-','LineWidth',2)
+plot(concR_wake(2,1:10:end)*1e3, concP_wake(1:10:end)*1e3, 'b:','LineWidth',2)
+plot(concR_tet(1,:)*1e3, concP_tet*1e3, 'r-','LineWidth',2)
 % plot(concR_a(1,:), concP_a, 'k-')
 % plot(concR_wake(2,:), concP_wake, 'b.')
 % plot(concR_tet(2,:), concP_tet, 'r.')
@@ -94,8 +94,8 @@ first = true;
 figure(h)
 for val =(10:5:120)*60
     
-    plot(yr_PSH(val)*1e6, yp_PSH(val,1)*1e3, 'k.')
-    plot(yr_ES(val)*1e6, yp_ES(val,1)*1e3, 'm.')
+    plot(yr_PSH(val)*1e6, yp_PSH(val,1)*1e3, 'k.','MarkerSize',12)
+    plot(yr_ES(val)*1e6, yp_ES(val,1)*1e3, 'm.','MarkerSize',12)
     if first
         first = false;
         legend ({'50% LOC', '95% LOC', '50% Tetany','P: 150 mkm, R = 0.05 mkm','P: Decrease, R = 0.08 mkm'},'AutoUpdate','off')
@@ -106,17 +106,17 @@ for val =(10:5:120)*60
     [imind,cm] = rgb2ind(im,256);
     % Write to the GIF File
     if val == 600
-        imwrite(imind,cm,filename,'gif', 'Loopcount',inf);
+        imwrite(imind,cm,filename,'gif', 'Loopcount',0, 'DelayTime', 1);
     else
-        imwrite(imind,cm,filename,'gif','WriteMode','append');
+        imwrite(imind,cm,filename,'gif','WriteMode','append', 'DelayTime', 1);
     end
 
 end
 
 figure(f2)
 set(f2,'Position',[100 100 600 500])
-plot(yr_PSH(val)*1e6, yp_PSH(val,1)*1e3, 'ko')
-plot(yr_ES(val)*1e6, yp_ES(val,1)*1e3, 'mo')
+plot(yr_PSH(val)*1e6, yp_PSH(val,1)*1e3, 'ko','MarkerSize',12)
+plot(yr_ES(val)*1e6, yp_ES(val,1)*1e3, 'mo','MarkerSize',12)
 legend ({'50% LOC', '95% LOC', '50% Tetany','P: 150 mkm','P: Titrate'},'AutoUpdate','off')
 
 frame = getframe(f2);

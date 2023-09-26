@@ -1,4 +1,4 @@
-function [sys, volume, clearance] = eleveld18_vary(mPatient, stepSize)
+function [sys, volume, clearance] = eleveld18_vary(mPatient, varysize)
 % Implements the model of Eleveld as described in page 942 of :
 % Eleveld DJ, Colin P, Absalom AR, Struys MMRF. 
 % Pharmacokinetic-pharmacodynamic model for propofol for broad application
@@ -42,8 +42,10 @@ thke0 = exp(-1.921620);
 omega=[0.610; 0.565; 0.597; 0.265; 0.346; 0.209; 0.463];
 
 omega_keo = 0.702;
-eta= (rand(7,1)-0.5)*1.5.*sqrt(omega);
-eta_keo = (rand(1)-0.5)*1.5*sqrt(omega_keo);
+%eta= (rand(7,1)-0.5)*1.5.*sqrt(omega);
+% Note error in manuscript table which are displaying w instead of w^2. 
+eta= (rand(7,1)-0.5)*varysize*2.*omega;
+eta_keo = (rand(1)-0.5)*varysize*2*sqrt(omega_keo);
 
     function f = alsallami(mPatient)
         BMI = mPatient.Weight/((mPatient.Height/100)^2);

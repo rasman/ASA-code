@@ -25,10 +25,10 @@ sys_ele2 = sys_ele2(2);
 subplot(1,2,1)
 hold
 ylim([0 4])
-s(1) = line([0 t1(1201)], 3*[1 1]);
-s(2) = line([0 t1(1201)], 2*[1 1]);
-s(3) = line([0 t1(1201)], 1.5*[1 1]);
-s(1).Color='b';
+s(1) = line([0 t1(1201)], 3*[1 1],'LineWidth',2);
+s(2) = line([0 t1(1201)], 2*[1 1],'LineWidth',2);
+s(3) = line([0 t1(1201)], 1.5*[1 1],'LineWidth',2 );
+s(1).Color='m';
 s(2).Color='k';
 s(3).Color='r';
 xlabel('Time (min)')
@@ -49,29 +49,29 @@ first = true;
 for val =[60, 150, 300, 600] *60
     subplot(1,2,1)
     y = lsim(sys_ele,u1,t1, x(val,:));
-    h1= plot(t1(1:1201),y(1:1201)*1000);
+    h1= plot(t1(1:1201),y(1:1201)*1000,'LineWidth',2);
     
     y2 = lsim(sys_ele2,u1,t1, x2(val,:));
-    plot(t1(1:1201),y2(1:1201)*1000,'Color',h1.Color, 'LineStyle','-.' );
+    plot(t1(1:1201),y2(1:1201)*1000,'Color',h1.Color, 'LineStyle','-.' ,'LineWidth',2);
     
     if first
         legend ({'','','','70 kg', '200 kg'},'AutoUpdate','off')
     end
     
     subplot(1,2,2)
-    plot(val/3600, t1(find(y < 3e-3,1)),'b.')
-    plot(val/3600, t1(find(y2 < 3e-3,1)),'bo')
+    plot(val/3600, t1(find(y < 3e-3,1)),'m.','MarkerSize',12)
+    plot(val/3600, t1(find(y2 < 3e-3,1)),'mo','MarkerSize',12)
     
     if first
         legend ({'70 kg', '200 kg'},'AutoUpdate','off')
         first = false;
     end
  
-    plot(val/3600, t1(find(y < 2e-3,1)),'k.')
-    plot(val/3600, t1(find(y2 < 2e-3,1)),'ko')
+    plot(val/3600, t1(find(y < 2e-3,1)),'k.','MarkerSize',12)
+    plot(val/3600, t1(find(y2 < 2e-3,1)),'ko','MarkerSize',12)
     
-    plot(val/3600, t1(find(y < 1.5e-3,1)),'r.') 
-    plot(val/3600, t1(find(y2 < 1.5e-3,1)),'ro')
+    plot(val/3600, t1(find(y < 1.5e-3,1)),'r.','MarkerSize',12) 
+    plot(val/3600, t1(find(y2 < 1.5e-3,1)),'ro','MarkerSize',12)
     
     drawnow
     frame = getframe(h);
@@ -79,9 +79,9 @@ for val =[60, 150, 300, 600] *60
     [imind,cm] = rgb2ind(im,256);
     % Write to the GIF File
     if val/3600 == 1
-        imwrite(imind,cm,filename,'gif', 'Loopcount',0, 'DelayTime', 2);
+        imwrite(imind,cm,filename,'gif', 'Loopcount',0, 'DelayTime', 1);
     else
-        imwrite(imind,cm,filename,'gif','WriteMode','append', 'DelayTime', 2);
+        imwrite(imind,cm,filename,'gif','WriteMode','append', 'DelayTime', 1);
     end
     
 end

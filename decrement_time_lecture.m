@@ -18,10 +18,10 @@ sys_ele = sys_ele(2);
 subplot(1,2,1)
 hold
 ylim([0 4])
-s(1) = line([0 t1(1201)], 3*[1 1]);
-s(2) = line([0 t1(1201)], 2*[1 1]);
-s(3) = line([0 t1(1201)], 1.5*[1 1]);
-s(1).Color='b';
+s(1) = line([0 t1(1201)], 3*[1 1],'LineWidth',2);
+s(2) = line([0 t1(1201)], 2*[1 1],'LineWidth',2);
+s(3) = line([0 t1(1201)], 1.5*[1 1],'LineWidth',2);
+s(1).Color='m';
 s(2).Color='k';
 s(3).Color='r';
 xlabel('Time (min)')
@@ -42,7 +42,7 @@ first = true;
 for val =(60:60:600)*60
     subplot(1,2,1)
     y = lsim(sys_ele,u1,t1, x(val,:));
-    plot(t1(1:1201),y(1:1201)*1000)
+    plot(t1(1:1201),y(1:1201)*1000,'LineWidth',2)
     
     
     if first
@@ -50,9 +50,9 @@ for val =(60:60:600)*60
     end
     
     subplot(1,2,2)
-    plot(val/3600, t1(find(y < 3e-3,1)),'b.')
-    plot(val/3600, t1(find(y < 2e-3,1)),'k.')
-    plot(val/3600, t1(find(y < 1.5e-3,1)),'r.')
+    plot(val/3600, t1(find(y < 3e-3,1)),'m.','MarkerSize',12)
+    plot(val/3600, t1(find(y < 2e-3,1)),'k.','MarkerSize',12)
+    plot(val/3600, t1(find(y < 1.5e-3,1)),'r.','MarkerSize',12)
     
     if first
         legend ({'25%','50%','62.5%'},'AutoUpdate','off')
@@ -66,9 +66,9 @@ for val =(60:60:600)*60
     % Write to the GIF File
     if val/3600 == 1
         imwrite(imind,cm,filename_1,'gif', 'Loopcount',0);
-        imwrite(imind,cm,filename,'gif', 'Loopcount',0, 'DelayTime', 2);
+        imwrite(imind,cm,filename,'gif', 'Loopcount',0, 'DelayTime', 1);
     else
-        imwrite(imind,cm,filename,'gif','WriteMode','append', 'DelayTime', 2);
+        imwrite(imind,cm,filename,'gif','WriteMode','append', 'DelayTime', 1);
     end
     
 end
